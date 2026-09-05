@@ -1,0 +1,21 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "blog"
+    label: "Artikel Blog"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Judul", name: "title", widget: "string" }
+      - { label: "Deskripsi", name: "description", widget: "text" }
+      - { label: "Tanggal Publish", name: "pubDate", widget: "datetime" }
+      - { label: "Banner - Gambar", name: "bannerImage", widget: "image", required: false }
+      - { label: "Banner - Link Afiliasi", name: "bannerUrl", widget: "string", required: false }
+      - { label: "Banner - Posisi", name: "bannerPosisi", widget: "select", options: ["atas", "tengah", "sidebar"], required: false }
+      - { label: "Isi Artikel", name: "body", widget: "markdown" }
