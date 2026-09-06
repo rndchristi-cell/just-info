@@ -26,6 +26,28 @@ collections:
         name: "description"
         widget: "text"
 
+      - label: "Kategori"
+        name: "category"
+        widget: "select"
+        options:
+          - "Umum"
+          - "Teknologi"
+          - "Bisnis"
+          - "Tutorial"
+          - "Tips"
+        default: "Umum"
+
+      - label: "Tag"
+        name: "tags"
+        widget: "list"
+        allow_add: true
+        collapsed: false
+        field:
+          label: "Nama Tag"
+          name: "tag"
+          widget: "string"
+
+
       - label: "Tanggal Publish"
         name: "pubDate"
         widget: "datetime"
