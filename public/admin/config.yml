@@ -1,6 +1,8 @@
 backend:
   name: git-gateway
   branch: main
+  identity_url: https://radiant-tarsier-253aa8.netlify.app/.netlify/identity
+  gateway_url: https://radiant-tarsier-253aa8.netlify.app/.netlify/git
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
