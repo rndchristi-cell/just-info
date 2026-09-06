@@ -11,14 +11,45 @@ public_folder: "/images/uploads"
 collections:
   - name: "blog"
     label: "Artikel Blog"
+    label_singular: "Artikel"
     folder: "src/content/blog"
     create: true
+    extension: "md"
+    format: "frontmatter"
     slug: "{{slug}}"
     fields:
-      - { label: "Judul", name: "title", widget: "string" }
-      - { label: "Deskripsi", name: "description", widget: "text" }
-      - { label: "Tanggal Publish", name: "pubDate", widget: "datetime" }
-      - { label: "Banner - Gambar", name: "bannerImage", widget: "image", required: false }
-      - { label: "Banner - Link Afiliasi", name: "bannerUrl", widget: "string", required: false }
-      - { label: "Banner - Posisi", name: "bannerPosisi", widget: "select", options: ["atas", "tengah", "sidebar"], required: false }
-      - { label: "Isi Artikel", name: "body", widget: "markdown" }
+      - label: "Judul"
+        name: "title"
+        widget: "string"
+
+      - label: "Deskripsi"
+        name: "description"
+        widget: "text"
+
+      - label: "Tanggal Publish"
+        name: "pubDate"
+        widget: "datetime"
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+
+      - label: "Banner - Gambar"
+        name: "bannerImage"
+        widget: "image"
+        required: false
+
+      - label: "Banner - Link Afiliasi"
+        name: "bannerUrl"
+        widget: "string"
+        required: false
+
+      - label: "Banner - Posisi"
+        name: "bannerPosisi"
+        widget: "select"
+        options:
+          - "atas"
+          - "tengah"
+          - "sidebar"
+        required: false
+
+      - label: "Isi Artikel"
+        name: "body"
+        widget: "markdown"
