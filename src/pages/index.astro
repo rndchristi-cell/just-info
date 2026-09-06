@@ -1,22 +1,278 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Content Manager</title>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-</head>
-<body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.init({
-        APIUrl: "https://radiant-tarsier-253aa8.netlify.app//.netlify/identity"
-      });
-      window.netlifyIdentity.on("login", () => {
-        document.location.href = "/admin/";
-      });
-    }
-  </script>
-</body>
+
+
+```
+astro
+---
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+
+const sortedPosts = posts.sort(
+  (a, b) =>
+    b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat('id-ID', {
+    dateStyle: 'long',
+  }).format(date);
+
+const getPostUrl = (id: string) => {
+  const slug = id.replace(/\.md$/, '');
+  return `/blog/${slug}/`;
+};
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Just Info — artikel dan informasi pilihan."
+    />
+    <title>Just Info</title>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/">Just Info</a>
+        <nav aria-label="Navigasi utama">
+          <a href="/">Beranda</a>
+          <a href="/admin/">Admin</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero container">
+        <p class="eyebrow">BLOG</p>
+        <h1>Informasi yang berguna untuk Anda.</h1>
+        <p class="hero-description">
+          Baca artikel terbaru dari Just Info.
+        </p>
+      </section>
+
+      <section class="container articles-section" aria-labelledby="artikel-terbaru">
+        <div class="section-heading">
+          <h2 id="artikel-terbaru">Artikel terbaru</h2>
+          <span>{sortedPosts.length} artikel</span>
+        </div>
+
+        {sortedPosts.length === 0 ? (
+          <p class="empty-state">
+            Belum ada artikel. Buat artikel pertama melalui dashboard admin.
+          </p>
+        ) : (
+          <div class="article-grid">
+            {sortedPosts.map((post) => (
+              <article class="article-card">
+                {post.data.bannerImage ? (
+                  <img
+                    src={post.data.bannerImage}
+                    alt={post.data.title}
+                    loading="lazy"
+                  />
+                ) : null}
+
+                <div class="article-card-content">
+                  <p class="article-date">
+                    {formatDate(post.data.pubDate)}
+                  </p>
+                  <h3>
+                    <a href={getPostUrl(post.id)}>{post.data.title}</a>
+                  </h3>
+                  <p>{post.data.description}</p>
+                  <a class="read-more" href={getPostUrl(post.id)}>
+                    Baca artikel →
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© 2026 Just Info</p>
+      </div>
+    </footer>
+  </body>
 </html>
+
+<style>
+  :global(*) {
+    box-sizing: border-box;
+  }
+
+  :global(body) {
+    margin: 0;
+    color: #1f2933;
+    background: #f7f8fa;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+
+  .container {
+    width: min(1120px, calc(100% - 32px));
+    margin: 0 auto;
+  }
+
+  .site-header {
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 72px;
+    gap: 24px;
+  }
+
+  .brand {
+    color: #111827;
+    font-size: 1.35rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  nav {
+    display: flex;
+    gap: 18px;
+  }
+
+  nav a,
+  .read-more {
+    color: #2563eb;
+    text-decoration: none;
+  }
+
+  nav a:hover,
+  .read-more:hover {
+    text-decoration: underline;
+  }
+
+  .hero {
+    padding: 88px 0 56px;
+  }
+
+  .eyebrow {
+    margin: 0 0 12px;
+    color: #2563eb;
+    font-family: Arial, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+  }
+
+  h1,
+  h2,
+  h3,
+  p {
+    margin-top: 0;
+  }
+
+  h1 {
+    max-width: 720px;
+    margin-bottom: 18px;
+    font-size: clamp(2.4rem, 6vw, 4.8rem);
+    line-height: 1;
+  }
+
+  .hero-description {
+    max-width: 620px;
+    color: #667085;
+    font-family: Arial, sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+
+  .articles-section {
+    padding-bottom: 80px;
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .section-heading span,
+  .article-date {
+    color: #667085;
+    font-family: Arial, sans-serif;
+    font-size: 0.85rem;
+  }
+
+  .article-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .article-card {
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+  }
+
+  .article-card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .article-card-content {
+    padding: 24px;
+  }
+
+  .article-card h3 {
+    margin-bottom: 10px;
+    font-size: 1.45rem;
+    line-height: 1.2;
+  }
+
+  .article-card h3 a {
+    color: #111827;
+    text-decoration: none;
+  }
+
+  .article-card-content > p:not(.article-date) {
+    color: #667085;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+  }
+
+  .empty-state {
+    padding: 32px;
+    background: #ffffff;
+    border: 1px dashed #cbd5e1;
+    font-family: Arial, sans-serif;
+  }
+
+  .site-footer {
+    padding: 28px 0;
+    background: #111827;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+  }
+
+  @media (max-width: 800px) {
+    .article-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero {
+      padding: 60px 0 40px;
+    }
+  }
+</style>
