@@ -249,11 +249,11 @@ const getPostUrl = (id: string) => {
   }
 
   .hero {
-    padding: 88px 0 56px;
+    padding: clamp(96px, 11vw, 144px) 0 clamp(72px, 8vw, 104px);
   }
 
   .eyebrow {
-    margin: 0 0 12px;
+    margin: 0 0 22px;
     color: #2563eb;
     font-family: Arial, sans-serif;
     font-size: 0.78rem;
@@ -270,13 +270,14 @@ const getPostUrl = (id: string) => {
 
   h1 {
     max-width: 720px;
-    margin-bottom: 18px;
+    margin-bottom: 28px;
     font-size: clamp(2.4rem, 6vw, 4.8rem);
     line-height: 1;
   }
 
   .hero-description {
     max-width: 620px;
+    margin-bottom: 0;
     color: #667085;
     font-family: Arial, sans-serif;
     font-size: 1.1rem;
@@ -284,6 +285,7 @@ const getPostUrl = (id: string) => {
   }
 
   .articles-section {
+    padding-top: 8px;
     padding-bottom: 80px;
   }
 
@@ -362,8 +364,12 @@ const getPostUrl = (id: string) => {
       grid-template-columns: 1fr;
     }
 
+    .section-heading {
+      margin-bottom: 26px;
+    }
+
     .hero {
-      padding: 60px 0 40px;
+      padding: 72px 0 56px;
     }
 
    .article-meta {
