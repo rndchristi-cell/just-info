@@ -3,24 +3,16 @@ import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
-
   return posts.map((post) => ({
-    params: {
-      slug: post.id.replace(/\.md$/, ''),
-    },
-    props: {
-      post,
-    },
+    params: { slug: post.id.replace(/\.md$/, '') },
+    props: { post },
   }));
 }
 
 const { post } = Astro.props;
 const { Content } = await render(post);
-
-const formatDate = (date: Date) =>
-  new Intl.DateTimeFormat('id-ID', {
-    dateStyle: 'long',
-  }).format(date);
+const formatDate = (date: Date) => new Intl.DateTimeFormat('id-ID', { dateStyle: 'long' }).format(date);
+const bannerPosition = post.data.bannerPosisi || 'atas';
 ---
 
 <!doctype html>
@@ -29,320 +21,90 @@ const formatDate = (date: Date) =>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={post.data.description} />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={post.data.title} />
+    <meta property="og:description" content={post.data.description} />
+    {post.data.bannerImage && <meta property="og:image" content={post.data.bannerImage} />}
     <title>{post.data.title} — Just Info</title>
     <script is:inline>
-      const savedTheme = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-        document.documentElement.classList.add('dark');
-      }
+      (() => {
+        const saved = localStorage.getItem('theme');
+        if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+      })();
     </script>
   </head>
-
   <body>
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href="/">Just Info</a>
         <nav aria-label="Navigasi utama">
           <a href="/">Beranda</a>
-          <button class="theme-toggle" type="button" aria-label="Aktifkan mode gelap" title="Ganti tema">
-            <span class="theme-icon" aria-hidden="true">☾</span>
-            <span class="theme-label">Gelap</span>
-          </button>
+          <a href="/admin/">Admin</a>
+          <button class="theme-toggle" type="button" aria-label="Aktifkan mode gelap"><span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Gelap</span></button>
         </nav>
       </div>
     </header>
 
     <main class="container article-page">
-  <a class="back-link" href="/">← Kembali ke artikel</a>
+      <a class="back-link" href="/">← Kembali ke artikel</a>
+      <article>
+        <header class="article-header">
+          <div class="article-meta">
+            <span class="category-badge">{post.data.category}</span>
+            <time class="article-date" datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+          </div>
+          <h1>{post.data.title}</h1>
+          <p class="lead">{post.data.description}</p>
+          {post.data.tags.length > 0 && <div class="tag-list" aria-label="Tag artikel">{post.data.tags.map((tag) => <span class="tag">#{tag}</span>)}</div>}
+        </header>
 
-  <p class="article-date">{formatDate(post.data.pubDate)}</p>
-  <h1>{post.data.title}</h1>
-  <p class="lead">{post.data.description}</p>
+        {post.data.bannerImage && (
+          <figure class={`banner banner-${bannerPosition}`}>
+            {post.data.bannerUrl ? (
+              <a href={post.data.bannerUrl} target="_blank" rel="sponsored noopener noreferrer" aria-label={`Buka tautan untuk ${post.data.title}`}>
+                <img src={post.data.bannerImage} alt={post.data.title} loading="eager" decoding="async" />
+              </a>
+            ) : (
+              <img src={post.data.bannerImage} alt={post.data.title} loading="eager" decoding="async" />
+            )}
+          </figure>
+        )}
 
-  <!-- Tambahkan kategori dan tag di sini -->
-  <div class="article-meta">
-    <span class="category-badge">{post.data.category}</span>
-    <span class="article-date">
-      {formatDate(post.data.pubDate)}
-    </span>
-  </div>
-
-  {post.data.tags.length > 0 ? (
-    <div class="tag-list" aria-label="Tag artikel">
-      {post.data.tags.map((tag) => (
-        <span class="tag">#{tag}</span>
-      ))}
-    </div>
-  ) : null}
-
-  {post.data.bannerImage ? (
-    <img
-      class="hero-image"
-      src={post.data.bannerImage}
-      alt={post.data.title}
-    />
-  ) : null}
-
-
-      <article class="prose">
-        <Content />
+        <div class="prose"><Content /></div>
       </article>
     </main>
 
-    <footer class="site-footer">
-      <div class="container">
-        <p>© 2026 Just Info</p>
-      </div>
-    </footer>
+    <footer class="site-footer"><div class="container"><p>© 2026 Just Info</p></div></footer>
 
     <script is:inline>
-      const themeToggle = document.querySelector('.theme-toggle');
-      const themeIcon = document.querySelector('.theme-icon');
-      const themeLabel = document.querySelector('.theme-label');
-
-      function updateThemeButton() {
-        const isDark = document.documentElement.classList.contains('dark');
-        if (themeIcon) themeIcon.textContent = isDark ? '☀' : '☾';
-        if (themeLabel) themeLabel.textContent = isDark ? 'Terang' : 'Gelap';
-        themeToggle?.setAttribute('aria-label', isDark ? 'Aktifkan mode terang' : 'Aktifkan mode gelap');
-      }
-
-      updateThemeButton();
-      themeToggle?.addEventListener('click', () => {
-        const isDark = document.documentElement.classList.toggle('dark');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        updateThemeButton();
-      });
+      (() => {
+        const button = document.querySelector('.theme-toggle');
+        const icon = document.querySelector('.theme-icon');
+        const label = document.querySelector('.theme-label');
+        const update = () => {
+          const dark = document.documentElement.classList.contains('dark');
+          if (icon) icon.textContent = dark ? '☀' : '☾';
+          if (label) label.textContent = dark ? 'Terang' : 'Gelap';
+          button?.setAttribute('aria-label', dark ? 'Aktifkan mode terang' : 'Aktifkan mode gelap');
+        };
+        update();
+        button?.addEventListener('click', () => {
+          const dark = document.documentElement.classList.toggle('dark');
+          localStorage.setItem('theme', dark ? 'dark' : 'light');
+          update();
+        });
+      })();
     </script>
   </body>
 </html>
 
 <style>
-  :global(:root) {
-    color-scheme: light;
-    --page-background: #f7f8fa;
-    --surface: #ffffff;
-    --text: #1f2933;
-    --heading: #111827;
-    --muted: #667085;
-    --border: #e5e7eb;
-    --link: #2563eb;
-    --footer-background: #111827;
-    --footer-text: #ffffff;
-    --badge-background: #dbeafe;
-    --badge-text: #1d4ed8;
-  }
-
-  :global(html.dark) {
-    color-scheme: dark;
-    --page-background: #111827;
-    --surface: #1f2937;
-    --text: #e5e7eb;
-    --heading: #f9fafb;
-    --muted: #aab4c3;
-    --border: #374151;
-    --link: #93c5fd;
-    --footer-background: #030712;
-    --footer-text: #e5e7eb;
-    --badge-background: #1e3a8a;
-    --badge-text: #bfdbfe;
-  }
-
-  :global(*) {
-    box-sizing: border-box;
-  }
-
-  :global(body) {
-    margin: 0;
-    color: var(--text);
-    background: var(--page-background);
-    font-family: Georgia, 'Times New Roman', serif;
-  }
-
-  .container {
-    width: 100%;
-    max-width: 1120px;
-    margin-inline: auto;
-    padding-inline: clamp(24px, 5vw, 64px);
-  }
-
-  .site-header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .header-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 72px;
-    gap: 24px;
-  }
-
-  .brand {
-    color: var(--heading);
-    font-size: clamp(1.2rem, 2vw, 1.5rem);
-    font-weight: 700;
-    text-decoration: none;
-  }
-
-  nav {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 14px;
-  }
-
-  nav a,
-  .back-link {
-    color: var(--link);
-    text-decoration: none;
-    font-family: Arial, sans-serif;
-  }
-
-  nav a:hover,
-  .back-link:hover {
-    text-decoration: underline;
-  }
-
-  .article-page {
-    padding-top: 64px;
-    padding-bottom: 88px;
-  }
-
-  .back-link {
-    display: inline-block;
-    margin-bottom: 48px;
-  }
-
-  .article-date {
-    color: var(--muted);
-    font-family: Arial, sans-serif;
-    font-size: 0.9rem;
-  }
-
-  h1 {
-    margin: 10px 0 18px;
-    font-size: clamp(2.4rem, 6vw, 4.5rem);
-    line-height: 1.05;
-  }
-
-  .lead {
-    color: var(--muted);
-    font-family: Arial, sans-serif;
-    font-size: 1.15rem;
-    line-height: 1.7;
-  }
-
-  .hero-image {
-    width: 100%;
-    max-height: 520px;
-    margin: 36px 0;
-    border-radius: 12px;
-    object-fit: cover;
-  }
-
-  .prose {
-    font-size: 1.15rem;
-    line-height: 1.85;
-  }
-
-  .prose :global(h2) {
-    margin-top: 42px;
-    line-height: 1.2;
-  }
-
-  .prose :global(img) {
-    max-width: 100%;
-    height: auto;
-  }
-
-  .prose :global(a) {
-    color: var(--link);
-  }
-
-  .site-footer {
-    padding: 28px 0;
-    background: var(--footer-background);
-    color: var(--footer-text);
-    font-family: Arial, sans-serif;
-  }
-
-.article-meta {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 18px 0;
-}
-
-.category-badge {
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: var(--badge-background);
-  color: var(--badge-text);
-  font-family: Arial, sans-serif;
-  font-size: 0.75rem;
-  font-weight: 700;
-}
-
-.tag-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin: 16px 0 28px;
-}
-
-.tag {
-  color: var(--muted);
-  font-family: Arial, sans-serif;
-  font-size: 0.85rem;
-}
-
-  .theme-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 10px;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    background: var(--surface);
-    color: var(--text);
-    cursor: pointer;
-    font-family: Arial, sans-serif;
-    font-size: 0.8rem;
-  }
-
-  .theme-toggle:hover {
-    border-color: var(--link);
-  }
-
-  .theme-icon {
-    font-size: 1rem;
-    line-height: 1;
-  }
-
-  .theme-label {
-    white-space: nowrap;
-  }
-
-  @media (max-width: 800px) {
-    .container {
-      padding-inline: 24px;
-    }
-
-    .header-inner {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 14px;
-      padding-top: 18px;
-      padding-bottom: 18px;
-    }
-
-    nav {
-      width: 100%;
-      justify-content: flex-start;
-    }
-  }
+  :global(:root){color-scheme:light;--page-background:#f7f8fa;--surface:#fff;--text:#1f2933;--heading:#111827;--muted:#667085;--border:#e5e7eb;--link:#2563eb;--footer:#111827;--footer-text:#fff;--badge:#dbeafe;--badge-text:#1d4ed8}
+  :global(html.dark){color-scheme:dark;--page-background:#111827;--surface:#1f2937;--text:#e5e7eb;--heading:#f9fafb;--muted:#aab4c3;--border:#374151;--link:#93c5fd;--footer:#030712;--footer-text:#e5e7eb;--badge:#1e3a8a;--badge-text:#bfdbfe}
+  :global(*){box-sizing:border-box}:global(body){margin:0;color:var(--text);background:var(--page-background);font-family:Georgia,'Times New Roman',serif}
+  .container{width:100%;max-width:1120px;margin-inline:auto;padding-inline:clamp(24px,5vw,64px)}.site-header{background:var(--surface);border-bottom:1px solid var(--border)}.header-inner{display:flex;align-items:center;justify-content:space-between;min-height:72px;gap:24px}.brand{color:var(--heading);font-size:1.5rem;font-weight:700;text-decoration:none}nav{display:flex;align-items:center;flex-wrap:wrap;gap:14px}nav a,.back-link{color:var(--link);text-decoration:none;font-family:Arial,sans-serif}nav a:hover,.back-link:hover{text-decoration:underline}
+  .article-page{padding-top:64px;padding-bottom:88px}.back-link{display:inline-block;margin-bottom:40px}.article-header{max-width:820px}.article-meta{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px}.category-badge{padding:5px 10px;border-radius:999px;background:var(--badge);color:var(--badge-text);font-family:Arial,sans-serif;font-size:.75rem;font-weight:700}.article-date{color:var(--muted);font-family:Arial,sans-serif;font-size:.85rem}.tag-list{display:flex;flex-wrap:wrap;gap:7px;margin:18px 0}.tag{color:var(--muted);font-family:Arial,sans-serif;font-size:.85rem}h1{margin:0 0 18px;color:var(--heading);font-size:clamp(2.4rem,6vw,4.5rem);line-height:1.05}.lead{margin:0;color:var(--muted);font-family:Arial,sans-serif;font-size:1.15rem;line-height:1.7}
+  .banner{margin:36px 0}.banner img{display:block;width:100%;max-height:560px;object-fit:cover;border-radius:12px}.banner-tengah img{object-position:center}.banner-atas img{object-position:top}.banner-sidebar{max-width:720px;margin-left:auto;margin-right:auto}.banner a{display:block}.prose{max-width:820px;font-size:1.15rem;line-height:1.85}.prose :global(h2){margin-top:42px;color:var(--heading);line-height:1.2}.prose :global(h3){color:var(--heading)}.prose :global(img){max-width:100%;height:auto;border-radius:8px}.prose :global(a){color:var(--link)}.prose :global(blockquote){margin-inline:0;padding-left:20px;border-left:3px solid var(--border);color:var(--muted)}.site-footer{padding:28px 0;background:var(--footer);color:var(--footer-text);font-family:Arial,sans-serif}.site-footer p{margin:0}
+  .theme-toggle{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text);cursor:pointer;font-family:Arial,sans-serif;font-size:.8rem}.theme-toggle:hover{border-color:var(--link)}.theme-icon{font-size:1rem;line-height:1}.theme-label{white-space:nowrap}
+  @media(max-width:520px){.header-inner{align-items:flex-start;flex-direction:column;padding-top:18px;padding-bottom:18px}.article-page{padding-top:40px}.article-header h1{font-size:clamp(2.1rem,12vw,3.2rem)}nav{width:100%;justify-content:flex-start}}
 </style>
