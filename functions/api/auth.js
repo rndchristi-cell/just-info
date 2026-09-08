@@ -14,7 +14,7 @@ export async function onRequest(context) {
 
     githubUrl.searchParams.set('client_id', clientId);
     githubUrl.searchParams.set('redirect_uri', callbackUrl.href);
-    githubUrl.searchParams.set('scope', 'repo');
+    githubUrl.searchParams.set('scope', 'public_repo');
     githubUrl.searchParams.set('state', state);
 
     return new Response(null, {
