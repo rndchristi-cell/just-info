@@ -1,43 +1,108 @@
-# Astro Starter Kit: Minimal
+# Just Info
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Blog berbasis Astro dengan Decap CMS untuk mengelola artikel melalui dashboard admin.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Stack
 
-## 🚀 Project Structure
+- [Astro](https://astro.build/) untuk website statis.
+- [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/) untuk artikel Markdown.
+- [Decap CMS](https://decapcms.org/) untuk pengelolaan konten.
+- Cloudflare Pages + Pages Functions untuk hosting dan OAuth GitHub.
 
-Inside of your Astro project, you'll see the following folders and files:
+## Struktur penting
 
 ```text
-/
+.
+├── functions/api/
+│   ├── auth.js
+│   └── callback.js
 ├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   └── admin/
+│       ├── config.yml
+│       └── index.html
+└── src/
+    ├── content/blog/
+    ├── content.config.ts
+    └── pages/
+        ├── index.astro
+        └── [...slug].astro
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Development
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Install dependency:
 
-Any static assets, like images, can be placed in the `public/` directory.
+```bash
+npm install
+```
 
-## 🧞 Commands
+Jalankan development server:
 
-All commands are run from the root of the project, from a terminal:
+```bash
+npm run dev
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Build production:
 
-## 👀 Want to learn more?
+```bash
+npm run build
+```
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Preview hasil build:
+
+```bash
+npm run preview
+```
+
+## Menulis artikel
+
+Artikel disimpan di `src/content/blog/` sebagai Markdown dengan frontmatter berikut:
+
+```yaml
+---
+title: Judul artikel
+description: Ringkasan artikel
+pubDate: 2026-09-08T10:00:00+07:00
+category: Umum
+tags:
+  - tips
+  - informasi
+bannerImage: /images/uploads/banner.jpg
+bannerUrl: https://contoh.com/produk
+bannerPosisi: atas
+---
+
+Isi artikel...
+```
+
+`bannerUrl` bersifat opsional. Jika diisi, gambar banner menjadi tautan keluar dan ditandai sebagai tautan bersponsor (`rel="sponsored"`).
+
+## Decap CMS
+
+Dashboard tersedia di `/admin/`.
+
+Konfigurasi CMS berada di `public/admin/config.yml`. Backend menggunakan GitHub repository ini dan OAuth proxy pada:
+
+- `/api/auth`
+- `/api/callback`
+
+### Environment variables
+
+Cloudflare Pages harus memiliki:
+
+- `GITHUB_CLIENT_ID`
+- `GITHUB_CLIENT_SECRET`
+
+Keduanya adalah secret/configuration untuk GitHub OAuth dan **tidak boleh ditulis ke source code**.
+
+GitHub OAuth App harus menggunakan callback URL:
+
+```text
+https://just-info-bww.pages.dev/api/callback
+```
+
+## Deployment
+
+Deploy project ini sebagai Astro static site di Cloudflare Pages. Folder `functions/` digunakan sebagai Pages Functions sehingga endpoint OAuth tetap tersedia pada deployment yang sama.
+
+Sebelum deploy, jalankan `npm run build` dan pastikan konfigurasi environment variable OAuth sudah tersedia di Cloudflare.
