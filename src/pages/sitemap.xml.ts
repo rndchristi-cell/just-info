@@ -5,8 +5,17 @@ const escapeXml = (value: string) =>
 
 export async function GET({ site }: { site: URL }) {
   const posts = await getCollection('blog');
+  const staticPaths = [
+    '',
+    'artikel/',
+    'tentang/',
+    'kontak/',
+    'kebijakan-privasi/',
+    'disclaimer/',
+    'affiliate-disclosure/',
+  ];
   const urls = [
-    site.href,
+    ...staticPaths.map((path) => new URL(path, site).href),
     ...posts.map((post) => new URL(`${post.id.replace(/\.md$/, '')}/`, site).href),
   ];
 
