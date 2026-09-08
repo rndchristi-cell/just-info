@@ -1,10 +1,11 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-const optionalUrl = z.preprocess(
-  (value) => (typeof value === 'string' && value.trim() === '' ? undefined : value),
-  z.string().url().optional(),
-);
+const emptyToUndefined = (value: unknown) =>
+  typeof value === 'string' && value.trim() === '' ? undefined : value;
+
+const optionalUrl = z.preprocess(emptyToUndefined, z.string().url().optional());
+const optionalString = z.preprocess(emptyToUndefined, z.string().optional());
 
 const blog = defineCollection({
   loader: glob({
@@ -17,7 +18,7 @@ const blog = defineCollection({
     pubDate: z.coerce.date(),
     category: z.string().optional().default('Umum'),
     tags: z.array(z.string()).optional().default([]),
-    bannerImage: z.string().optional(),
+    bannerImage: optionalString,
     bannerUrl: optionalUrl,
     bannerPosisi: z.enum(['atas', 'tengah', 'sidebar']).optional().default('atas'),
   }),
