@@ -3,7 +3,7 @@ export async function onRequest(context) {
   const clientId = env.GITHUB_CLIENT_ID;
 
   if (!clientId) {
-    return new Response('Missing GITHUB_CLIENT_ID environment variable.', { status: 500, headers: { 'content-type': 'text/plain; charset=UTF-8' } });
+    return new Response('Missing GITHUB_CLIENT_ID environment variable.', { status: 500, headers: { 'content-type': 'text/plain; charset=UTF-8', 'cache-control': 'no-store' } });
   }
 
   try {
@@ -21,11 +21,12 @@ export async function onRequest(context) {
       status: 302,
       headers: {
         Location: githubUrl.href,
+        'Set-Cookie': `oauth_state=${state}; Max-Age=600; Path=/api/; HttpOnly; Secure; SameSite=Lax`,
         'Cache-Control': 'no-store',
       },
     });
   } catch (error) {
     console.error('OAuth authorization error:', error);
-    return new Response('Unable to start GitHub OAuth flow.', { status: 500, headers: { 'content-type': 'text/plain; charset=UTF-8' } });
+    return new Response('Unable to start GitHub OAuth flow.', { status: 500, headers: { 'content-type': 'text/plain; charset=UTF-8', 'cache-control': 'no-store' } });
   }
 }
