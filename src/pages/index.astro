@@ -5,6 +5,7 @@ const posts = await getCollection('blog');
 const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const formatDate = (date: Date) => new Intl.DateTimeFormat('id-ID', { dateStyle: 'long' }).format(date);
 const getPostUrl = (id: string) => `/${id.replace(/\.md$/, '')}/`;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
 <!doctype html>
@@ -13,6 +14,14 @@ const getPostUrl = (id: string) => `/${id.replace(/\.md$/, '')}/`;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Just Info — artikel, panduan, tips, dan informasi pilihan." />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content="Just Info — Informasi yang berguna" />
+    <meta property="og:description" content="Artikel, panduan, tips, dan informasi pilihan yang ditulis untuk membantu Anda." />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Just Info — Informasi yang berguna" />
+    <meta name="twitter:description" content="Artikel, panduan, tips, dan informasi pilihan yang ditulis untuk membantu Anda." />
     <meta name="theme-color" content="#111827" />
     <title>Just Info — Informasi yang berguna</title>
     <script is:inline>
