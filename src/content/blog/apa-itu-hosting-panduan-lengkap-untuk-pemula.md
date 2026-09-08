@@ -1,17 +1,18 @@
 ---
 title: Apa Itu Hosting? Panduan Lengkap untuk Pemula
-description: Pelajari apa itu hosting, cara kerjanya, jenis-jenis hosting, dan cara memilih hosting yang tepat untuk website pertama Anda.
-pubDate: 2026-09-08T10:00:00+07:00
-bannerImage: ""
-bannerUrl: ""
-bannerPosisi: atas
+description: Pelajari apa itu hosting, cara kerjanya, jenis-jenis hosting, dan
+  cara memilih hosting yang tepat untuk website pertama Anda.
+category: Teknologi
 tags:
   - hosting
   - website
   - pemula
   - WordPress
   - domain
-category: Teknologi
+pubDate: 2026-09-08T10:00:00+07:00
+bannerImage: /images/uploads/141778.webp
+bannerUrl: ""
+bannerPosisi: atas
 ---
 
 # Apa Itu Hosting? Panduan Lengkap untuk Pemula
