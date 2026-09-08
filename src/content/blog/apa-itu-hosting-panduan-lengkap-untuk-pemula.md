@@ -150,7 +150,13 @@ Di Indonesia, Anda dapat membandingkan beberapa provider seperti **DomaiNesia, I
 
 Jangan hanya membandingkan harga promo bulan pertama. Periksa juga **harga perpanjangan**, resource yang sebenarnya tersedia, dan fitur yang tetap aktif setelah masa promo berakhir.
 
-> **Catatan:** Just Info dapat memperoleh komisi apabila Anda membeli layanan melalui tautan afiliasi tertentu di situs ini. Komisi tersebut tidak menambah biaya yang Anda bayarkan. Rekomendasi tetap didasarkan pada kesesuaian layanan dengan kebutuhan pengguna.
+### Ingin mulai dengan hosting?
+
+Jika Anda sudah memahami kebutuhan website dan ingin melihat pilihan hosting yang tersedia di DomaiNesia, Anda dapat menggunakan tautan berikut:
+
+**[Cek pilihan hosting DomaiNesia](https://my.domainesia.com/ref.php?u=25629)**
+
+> **Disclosure afiliasi:** Just Info dapat memperoleh komisi apabila Anda membeli layanan melalui tautan afiliasi tertentu di situs ini. Komisi tersebut tidak menambah biaya yang Anda bayarkan. Rekomendasi tetap didasarkan pada kesesuaian layanan dengan kebutuhan pengguna.
 
 ## Kesalahan umum saat membeli hosting
 
