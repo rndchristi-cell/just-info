@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1008 288" role="img" aria-labelledby="title desc">
+  <title id="title">JUST INFO</title>
+  <desc id="desc">Just What You Need to Know</desc>
+  <text x="500" y="145" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="118" letter-spacing="2" fill="currentColor">
+    <tspan font-weight="800">JUST</tspan><tspan font-weight="300" dx="16">INFO</tspan>
+  </text>
+  <text x="500" y="208" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="300" letter-spacing="1" fill="currentColor">Just What You Need to Know</text>
+</svg>
