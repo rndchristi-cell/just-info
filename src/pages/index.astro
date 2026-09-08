@@ -28,7 +28,6 @@ const getPostUrl = (id: string) => `/${id.replace(/\.md$/, '')}/`;
         <a class="brand" href="/">Just Info</a>
         <nav aria-label="Navigasi utama">
           <a href="/" aria-current="page">Beranda</a>
-          <a href="/admin/">Admin</a>
           <button class="theme-toggle" type="button" aria-label="Aktifkan mode gelap"><span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Gelap</span></button>
         </nav>
       </div>
@@ -44,7 +43,7 @@ const getPostUrl = (id: string) => `/${id.replace(/\.md$/, '')}/`;
       <section class="container articles-section" aria-labelledby="artikel-terbaru">
         <div class="section-heading"><h2 id="artikel-terbaru">Artikel terbaru</h2><span>{sortedPosts.length} artikel</span></div>
         {sortedPosts.length === 0 ? (
-          <p class="empty-state">Belum ada artikel. Tambahkan artikel melalui <a href="/admin/">dashboard admin</a>.</p>
+          <p class="empty-state">Belum ada artikel.</p>
         ) : (
           <div class="article-grid">
             {sortedPosts.map((post) => (
