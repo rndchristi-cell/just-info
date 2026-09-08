@@ -8,7 +8,10 @@ description: >-
 
   #domain #website #pemula #hosting #DNS
 category: Teknologi
+tags:
+  - "domain "
 pubDate: 2026-09-08T20:09:00+07:00
+bannerImage: /images/uploads/141777.webp
 bannerPosisi: atas
 ---
 ## Apa itu domain?
