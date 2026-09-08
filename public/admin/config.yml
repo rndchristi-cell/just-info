@@ -21,10 +21,12 @@ collections:
       - label: "Judul"
         name: "title"
         widget: "string"
+        required: true
 
       - label: "Deskripsi"
         name: "description"
         widget: "text"
+        required: true
 
       - label: "Kategori"
         name: "category"
@@ -36,6 +38,7 @@ collections:
           - "Tutorial"
           - "Tips"
         default: "Umum"
+        required: true
 
       - label: "Tag"
         name: "tags"
@@ -47,11 +50,11 @@ collections:
           name: "tag"
           widget: "string"
 
-
       - label: "Tanggal Publish"
         name: "pubDate"
         widget: "datetime"
         format: "YYYY-MM-DDTHH:mm:ssZ"
+        required: true
 
       - label: "Banner - Gambar"
         name: "bannerImage"
@@ -62,6 +65,7 @@ collections:
         name: "bannerUrl"
         widget: "string"
         required: false
+        hint: "Opsional. Gunakan URL lengkap, misalnya https://contoh.com/..."
 
       - label: "Banner - Posisi"
         name: "bannerPosisi"
@@ -70,8 +74,10 @@ collections:
           - "atas"
           - "tengah"
           - "sidebar"
-        required: false
+        default: "atas"
+        required: true
 
       - label: "Isi Artikel"
         name: "body"
         widget: "markdown"
+        required: true
