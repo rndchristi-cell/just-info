@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const formatDate = (date: Date) => new Intl.DateTimeFormat('id-ID', { dateStyle: 'long' }).format(date);
+const getPostUrl = (id: string) => `/${id.replace(/\.md$/, '')}/`;
+---
+
+<PageLayout title="Semua Artikel" description="Kumpulan artikel, panduan, dan tips teknologi dari Just Info.">
+  {sortedPosts.length === 0 ? (
+    <p>Belum ada artikel.</p>
+  ) : (
+    <div class="article-list">
+      {sortedPosts.map((post) => (
+        <article class="article-item">
+          <div class="meta"><span>{post.data.category}</span><time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time></div>
+          <h2><a href={getPostUrl(post.id)}>{post.data.title}</a></h2>
+          <p>{post.data.description}</p>
+          <a class="read-more" href={getPostUrl(post.id)}>Baca artikel →</a>
+        </article>
+      ))}
+    </div>
+  )}
+</PageLayout>
+
+<style>
+  .article-list{display:grid;gap:20px}.article-item{padding:24px;border:1px solid var(--border);border-radius:12px;background:var(--surface)}.article-item h2{margin:10px 0;color:var(--heading);font-size:1.6rem}.article-item h2 a{color:var(--heading);text-decoration:none}.article-item h2 a:hover,.read-more:hover{color:var(--link);text-decoration:underline}.article-item p{margin:0 0 12px;color:var(--muted)}.meta{display:flex;flex-wrap:wrap;gap:10px;color:var(--muted);font-family:Arial,sans-serif;font-size:.82rem}.read-more{color:var(--link);font-family:Arial,sans-serif;font-weight:700;text-decoration:none}
+</style>
