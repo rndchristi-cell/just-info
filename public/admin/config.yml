@@ -30,15 +30,9 @@ collections:
 
       - label: "Kategori"
         name: "category"
-        widget: "select"
-        options:
-          - "Umum"
-          - "Teknologi"
-          - "Bisnis"
-          - "Tutorial"
-          - "Tips"
-        default: "Umum"
+        widget: "string"
         required: true
+        hint: "Tulis nama kategori. Kategori baru akan otomatis muncul di navigasi kategori jika sudah dipakai oleh artikel."
 
       - label: "Tag"
         name: "tags"
