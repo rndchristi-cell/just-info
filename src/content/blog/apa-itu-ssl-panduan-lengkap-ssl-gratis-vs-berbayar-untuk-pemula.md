@@ -5,7 +5,9 @@ description: Pelajari apa itu SSL dan TLS, cara kerja HTTPS, manfaat sertifikat
   serta kapan Anda sebaiknya memilih sertifikat gratis atau berbayar.
 category: Teknologi
 tags:
-  - "#ssl #tls #https #keamananwebsite #website"
+  - ssl
+  - https
+  - keamanan website
 pubDate: 2026-09-09T07:00:00+07:00
 bannerImage: /images/uploads/142270.webp
 bannerPosisi: atas
