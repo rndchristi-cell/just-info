@@ -13,7 +13,7 @@ interface Props {
 const {
   title,
   description,
-  canonical = new URL(Astro.url.pathname, Astro.site).href,
+  canonical,
   type = 'website',
   image,
   publishedTime,
@@ -22,18 +22,20 @@ const {
 } = Astro.props;
 
 const siteName = 'Just Info';
+const siteUrl = Astro.site ?? new URL(Astro.url.origin);
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, siteUrl).href;
 const fullTitle = `${title} — ${siteName}`;
-const absoluteImage = image ? new URL(image, Astro.site).href : undefined;
+const absoluteImage = image ? new URL(image, siteUrl).href : undefined;
 ---
 
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
 <meta name="robots" content={noindex ? 'noindex,nofollow' : 'index,follow'} />
-<link rel="canonical" href={canonical} />
+<link rel="canonical" href={canonicalUrl} />
 
 <meta property="og:type" content={type} />
 <meta property="og:site_name" content={siteName} />
-<meta property="og:url" content={canonical} />
+<meta property="og:url" content={canonicalUrl} />
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
 {absoluteImage && <meta property="og:image" content={absoluteImage} />}
@@ -56,10 +58,10 @@ const absoluteImage = image ? new URL(image, Astro.site).href : undefined;
     '@type': 'Article',
     headline: title,
     description,
-    url: canonical,
+    url: canonicalUrl,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': canonical,
+      '@id': canonicalUrl,
     },
     ...(absoluteImage ? { image: [absoluteImage] } : {}),
     ...(publishedTime ? { datePublished: publishedTime.toISOString() } : {}),
@@ -67,12 +69,12 @@ const absoluteImage = image ? new URL(image, Astro.site).href : undefined;
     author: {
       '@type': 'Organization',
       name: siteName,
-      url: Astro.site?.href,
+      url: siteUrl.href,
     },
     publisher: {
       '@type': 'Organization',
       name: siteName,
-      url: Astro.site?.href,
+      url: siteUrl.href,
     },
   })} />
 )}
