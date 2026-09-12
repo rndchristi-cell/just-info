@@ -1,0 +1,20 @@
+# Just Info
+
+Just Info adalah website informasi dan panduan praktis seputar teknologi, website, hosting, WordPress, dan topik digital lainnya.
+
+## Halaman Utama
+
+- https://yourinfo.my.id/
+- https://yourinfo.my.id/artikel/
+- https://yourinfo.my.id/tentang/
+- https://yourinfo.my.id/kontak/
+
+## Kebijakan dan Informasi
+
+- https://yourinfo.my.id/kebijakan-privasi/
+- https://yourinfo.my.id/disclaimer/
+- https://yourinfo.my.id/affiliate-disclosure/
+
+## Sitemap
+
+- https://yourinfo.my.id/sitemap.xml
