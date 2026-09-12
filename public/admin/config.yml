@@ -2,7 +2,7 @@ backend:
   name: github
   repo: rndchristi-cell/just-info
   branch: main
-  base_url: https://just-info-bww.pages.dev
+  base_url: https://yourinfo.my.id
   auth_endpoint: /api/auth
 
 media_folder: "public/images/uploads"
@@ -27,12 +27,44 @@ collections:
         name: "description"
         widget: "text"
         required: true
+        hint: "Deskripsi utama artikel. Jika SEO Description kosong, field ini dipakai untuk meta description."
+
+      - label: "SEO Title"
+        name: "seoTitle"
+        widget: "string"
+        required: false
+        hint: "Opsional. Judul khusus untuk Google dan social sharing. Jika kosong, memakai Judul."
+
+      - label: "SEO Description"
+        name: "seoDescription"
+        widget: "text"
+        required: false
+        hint: "Opsional. Deskripsi khusus SEO. Jika kosong, memakai Deskripsi."
+
+      - label: "Author"
+        name: "author"
+        widget: "string"
+        required: false
+        default: "Just Info"
+
+      - label: "Tanggal Publish"
+        name: "pubDate"
+        widget: "datetime"
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+        required: true
+
+      - label: "Tanggal Update"
+        name: "updatedDate"
+        widget: "datetime"
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+        required: false
+        hint: "Isi jika artikel mengalami pembaruan substansial."
 
       - label: "Kategori"
         name: "category"
         widget: "string"
         required: true
-        hint: "Tulis nama kategori. Kategori baru akan otomatis muncul di navigasi kategori jika sudah dipakai oleh artikel."
+        hint: "Tulis nama kategori."
 
       - label: "Tag"
         name: "tags"
@@ -43,12 +75,6 @@ collections:
           label: "Nama Tag"
           name: "tag"
           widget: "string"
-
-      - label: "Tanggal Publish"
-        name: "pubDate"
-        widget: "datetime"
-        format: "YYYY-MM-DDTHH:mm:ssZ"
-        required: true
 
       - label: "Banner - Gambar"
         name: "bannerImage"
@@ -70,6 +96,13 @@ collections:
           - "sidebar"
         default: "atas"
         required: true
+
+      - label: "Noindex"
+        name: "noindex"
+        widget: "boolean"
+        default: false
+        required: false
+        hint: "Aktifkan hanya jika artikel memang tidak ingin muncul di hasil pencarian."
 
       - label: "Isi Artikel"
         name: "body"
