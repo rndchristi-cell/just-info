@@ -27,7 +27,7 @@ const siteName = 'Just Info';
 const siteUrl = Astro.site ?? new URL(Astro.url.origin);
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, siteUrl).href;
 const fullTitle = `${title} — ${siteName}`;
-const defaultImage = new URL('/images/og-default.jpg', siteUrl).href;
+const defaultImage = new URL('/images/just-info-og.jpg', siteUrl).href;
 const absoluteImage = image ? new URL(image, siteUrl).href : defaultImage;
 const pathname = Astro.url.pathname.replace(/^\\/+|\\/+$/g, '');
 const isHome = pathname === '';
