@@ -30,6 +30,24 @@ const blog = defineCollection({
   }),
 });
 
+const products = defineCollection({
+  loader: glob({
+    pattern: '**/*.md',
+    base: './src/content/products',
+  }),
+  schema: z.object({
+    name: z.string().min(1),
+    image: z.string().min(1),
+    description: z.string().min(1),
+    url: z.string().url(),
+    category: z.string().min(1),
+    type: z.enum(['physical', 'digital']).default('digital'),
+    order: z.number().int().default(10),
+    published: z.boolean().default(true),
+  }),
+});
+
 export const collections = {
   blog,
+  products,
 };
