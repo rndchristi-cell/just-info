@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 
-Sitemap: https://just-info-bww.pages.dev/sitemap.xml
+Sitemap: https://yourinfo.my.id/sitemap.xml
