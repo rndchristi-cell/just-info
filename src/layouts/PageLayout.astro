@@ -5,9 +5,9 @@ interface Props {
 }
 
 import SocialLinks from '../components/SocialLinks.astro';
+import SEO from '../components/SEO.astro';
 
 const { title, description } = Astro.props;
-const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
 <!doctype html>
@@ -15,19 +15,10 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
     <meta name="google-site-verification" content="eNUUHHWeHD-KPSiatyS81X5JvVAV3RRK1Z13WjWlyuA" />
-    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:title" content={`${title} — Just Info`} />
-    <meta property="og:description" content={description} />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content={`${title} — Just Info`} />
-    <meta name="twitter:description" content={description} />
     <meta name="theme-color" content="#111827" />
-    <title>{title} — Just Info</title>
+    <SEO title={title} description={description} />
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QWYMPDWHYN"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
