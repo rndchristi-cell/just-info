@@ -27,8 +27,9 @@ const siteName = 'Just Info';
 const siteUrl = Astro.site ?? new URL(Astro.url.origin);
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, siteUrl).href;
 const fullTitle = `${title} — ${siteName}`;
-const absoluteImage = image ? new URL(image, siteUrl).href : undefined;
-const pathname = Astro.url.pathname.replace(/^\/+|\/+$/g, '');
+const defaultImage = new URL('/images/og-default.jpg', siteUrl).href;
+const absoluteImage = image ? new URL(image, siteUrl).href : defaultImage;
+const pathname = Astro.url.pathname.replace(/^\\/+|\\/+$/g, '');
 const isHome = pathname === '';
 const isArticle = type === 'article';
 
@@ -56,12 +57,12 @@ const breadcrumbItems = isHome
 <meta property="og:url" content={canonicalUrl} />
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
-{absoluteImage && <meta property="og:image" content={absoluteImage} />}
+<meta property="og:image" content={absoluteImage} />
 
-<meta name="twitter:card" content={absoluteImage ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={fullTitle} />
 <meta name="twitter:description" content={description} />
-{absoluteImage && <meta name="twitter:image" content={absoluteImage} />}
+<meta name="twitter:image" content={absoluteImage} />
 
 {isArticle && publishedTime && (
   <meta property="article:published_time" content={publishedTime.toISOString()} />
@@ -110,7 +111,7 @@ const breadcrumbItems = isHome
             description,
             url: canonicalUrl,
             mainEntityOfPage: { '@id': `${canonicalUrl}#webpage` },
-            ...(absoluteImage ? { image: [absoluteImage] } : {}),
+            image: [absoluteImage],
             ...(publishedTime ? { datePublished: publishedTime.toISOString() } : {}),
             ...(modifiedTime ? { dateModified: modifiedTime.toISOString() } : {}),
             author: {
