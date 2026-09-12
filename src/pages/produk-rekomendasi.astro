@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+import ProductCard from '../components/ProductCard.astro';
+
+const products = (await getCollection('products', ({ data }) => data.published))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<PageLayout
+  title="Produk Rekomendasi"
+  description="Pilihan produk fisik dan digital yang direkomendasikan Just Info berdasarkan kebutuhan dan kegunaannya."
+>
+  <p class="intro">Beberapa produk yang kami pilih dan rekomendasikan untuk membantu kebutuhan tertentu. Klik produk untuk melihat informasi lebih lanjut di website penyedia.</p>
+
+  <div class="product-list">
+    {products.map((product) => (
+      <ProductCard {...product.data} />
+    ))}
+  </div>
+
+  {products.length === 0 && (
+    <div class="empty-state">
+      <p>Belum ada produk yang ditampilkan.</p>
+    </div>
+  )}
+
+  <p class="disclosure">Beberapa tautan pada halaman ini dapat merupakan tautan afiliasi. Jika Anda melakukan pembelian melalui tautan tersebut, Just Info mungkin menerima komisi tanpa biaya tambahan bagi Anda.</p>
+</PageLayout>
+
+<style>
+  .intro{margin:0 0 32px;max-width:760px;color:var(--muted)}
+  .product-list{display:grid;gap:22px}
+  .empty-state{padding:24px;border:1px dashed var(--border);border-radius:12px;color:var(--muted)}
+  .disclosure{margin:34px 0 0;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-family:Arial,sans-serif;font-size:.82rem;line-height:1.6}
+</style>
