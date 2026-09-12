@@ -28,6 +28,13 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
     <meta name="twitter:description" content={description} />
     <meta name="theme-color" content="#111827" />
     <title>{title} — Just Info</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QWYMPDWHYN"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-QWYMPDWHYN');
+    </script>
     <script is:inline>
       (() => {
         const saved = localStorage.getItem('theme');
