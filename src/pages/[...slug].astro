@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import SEO from '../components/SEO.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -11,18 +12,22 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
-const formatDate = (date: Date) => new Intl.DateTimeFormat('id-ID', { dateStyle: 'long' }).format(date);
-const getPostUrl = (id: string) => `/${id.replace(/\.md$/, '')}/`;
 const allPosts = await getCollection('blog');
-const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const sortedPosts = [...allPosts].sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
 const currentIndex = sortedPosts.findIndex((item) => item.id === post.id);
 const previousPost = currentIndex >= 0 ? sortedPosts[currentIndex + 1] : undefined;
 const nextPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : undefined;
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat('id-ID', { dateStyle: 'long' }).format(date);
+const getPostUrl = (id: string) => `/${id.replace(/\.md$/, '')}/`;
+
 const bannerPosition = post.data.bannerPosisi || 'atas';
 const bannerUrl = post.data.bannerUrl?.trim();
 const bannerImage = post.data.bannerImage?.trim();
-const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
-const absoluteBannerImage = bannerImage ? new URL(bannerImage, Astro.site).href : null;
 ---
 
 <!doctype html>
@@ -30,29 +35,21 @@ const absoluteBannerImage = bannerImage ? new URL(bannerImage, Astro.site).href 
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={post.data.description} />
-    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:title" content={post.data.title} />
-    <meta property="og:description" content={post.data.description} />
-    {absoluteBannerImage && <meta property="og:image" content={absoluteBannerImage} />}
-    <meta name="twitter:card" content={absoluteBannerImage ? 'summary_large_image' : 'summary'} />
-    <meta name="twitter:title" content={post.data.title} />
-    <meta name="twitter:description" content={post.data.description} />
-    {absoluteBannerImage && <meta name="twitter:image" content={absoluteBannerImage} />}
-    <title>{post.data.title} — Just Info</title>
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
+    <meta name="theme-color" content="#111827" />
+    <SEO
+      title={post.data.title}
+      description={post.data.description}
+      type="article"
+      image={bannerImage}
+      publishedTime={post.data.pubDate}
+    />
     <script is:inline>
       (() => {
         const saved = localStorage.getItem('theme');
-        if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+        if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
       })();
     </script>
   </head>
@@ -66,35 +63,65 @@ const absoluteBannerImage = bannerImage ? new URL(bannerImage, Astro.site).href 
           <a href="/">Beranda</a>
           <a href="/artikel/">Artikel</a>
           <a href="/tentang/">Tentang</a>
-          <button class="theme-toggle" type="button" aria-label="Aktifkan mode gelap"><span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Gelap</span></button>
+          <button class="theme-toggle" type="button" aria-label="Aktifkan mode gelap">
+            <span class="theme-icon" aria-hidden="true">☾</span>
+            <span class="theme-label">Gelap</span>
+          </button>
         </nav>
       </div>
     </header>
 
     <main class="container article-page">
       <a class="back-link" href="/artikel/">← Kembali ke semua artikel</a>
+
       <article>
         {bannerImage && bannerPosition === 'atas' && (
           <figure class="banner banner-atas">
-            {bannerUrl ? <a href={bannerUrl} target="_blank" rel="sponsored noopener noreferrer"><img src={bannerImage} alt={post.data.title} loading="eager" decoding="async" /></a> : <img src={bannerImage} alt={post.data.title} loading="eager" decoding="async" />}
-            {bannerUrl && <figcaption class="affiliate-disclosure">Tautan pada banner ini mungkin merupakan tautan afiliasi. Just Info dapat menerima komisi tanpa biaya tambahan bagi Anda.</figcaption>}
+            {bannerUrl ? (
+              <a href={bannerUrl} target="_blank" rel="sponsored noopener noreferrer">
+                <img src={bannerImage} alt={post.data.title} loading="eager" decoding="async" />
+              </a>
+            ) : (
+              <img src={bannerImage} alt={post.data.title} loading="eager" decoding="async" />
+            )}
+            {bannerUrl && (
+              <figcaption class="affiliate-disclosure">
+                Tautan pada banner ini mungkin merupakan tautan afiliasi. Just Info dapat menerima komisi tanpa biaya tambahan bagi Anda.
+              </figcaption>
+            )}
           </figure>
         )}
 
         <header class="article-header">
           <div class="article-meta">
             <span class="category-badge">{post.data.category}</span>
-            <time class="article-date" datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+            <time class="article-date" datetime={post.data.pubDate.toISOString()}>
+              {formatDate(post.data.pubDate)}
+            </time>
           </div>
           <h1>{post.data.title}</h1>
           <p class="lead">{post.data.description}</p>
-          {post.data.tags.length > 0 && <div class="tag-list" aria-label="Tag artikel">{post.data.tags.map((tag) => <span class="tag">#{tag}</span>)}</div>}
+          {post.data.tags.length > 0 && (
+            <div class="tag-list" aria-label="Tag artikel">
+              {post.data.tags.map((tag) => <span class="tag">#{tag}</span>)}
+            </div>
+          )}
         </header>
 
         {bannerImage && bannerPosition === 'tengah' && (
           <figure class="banner banner-tengah">
-            {bannerUrl ? <a href={bannerUrl} target="_blank" rel="sponsored noopener noreferrer"><img src={bannerImage} alt={post.data.title} loading="eager" decoding="async" /></a> : <img src={bannerImage} alt={post.data.title} loading="eager" decoding="async" />}
-            {bannerUrl && <figcaption class="affiliate-disclosure">Tautan pada banner ini mungkin merupakan tautan afiliasi. Just Info dapat menerima komisi tanpa biaya tambahan bagi Anda.</figcaption>}
+            {bannerUrl ? (
+              <a href={bannerUrl} target="_blank" rel="sponsored noopener noreferrer">
+                <img src={bannerImage} alt={post.data.title} loading="eager" decoding="async" />
+              </a>
+            ) : (
+              <img src={bannerImage} alt={post.data.title} loading="eager" decoding="async" />
+            )}
+            {bannerUrl && (
+              <figcaption class="affiliate-disclosure">
+                Tautan pada banner ini mungkin merupakan tautan afiliasi. Just Info dapat menerima komisi tanpa biaya tambahan bagi Anda.
+              </figcaption>
+            )}
           </figure>
         )}
 
@@ -103,8 +130,18 @@ const absoluteBannerImage = bannerImage ? new URL(bannerImage, Astro.site).href 
             <div class="prose"><Content /></div>
             <aside class="article-sidebar">
               <figure class="banner banner-sidebar">
-                {bannerUrl ? <a href={bannerUrl} target="_blank" rel="sponsored noopener noreferrer"><img src={bannerImage} alt={post.data.title} loading="eager" decoding="async" /></a> : <img src={bannerImage} alt={post.data.title} loading="eager" decoding="async" />}
-                {bannerUrl && <figcaption class="affiliate-disclosure">Tautan pada banner ini mungkin merupakan tautan afiliasi. Just Info dapat menerima komisi tanpa biaya tambahan bagi Anda.</figcaption>}
+                {bannerUrl ? (
+                  <a href={bannerUrl} target="_blank" rel="sponsored noopener noreferrer">
+                    <img src={bannerImage} alt={post.data.title} loading="eager" decoding="async" />
+                  </a>
+                ) : (
+                  <img src={bannerImage} alt={post.data.title} loading="eager" decoding="async" />
+                )}
+                {bannerUrl && (
+                  <figcaption class="affiliate-disclosure">
+                    Tautan pada banner ini mungkin merupakan tautan afiliasi. Just Info dapat menerima komisi tanpa biaya tambahan bagi Anda.
+                  </figcaption>
+                )}
               </figure>
             </aside>
           </div>
@@ -115,17 +152,21 @@ const absoluteBannerImage = bannerImage ? new URL(bannerImage, Astro.site).href 
         {(previousPost || nextPost) && (
           <nav class="article-navigation" aria-label="Navigasi artikel">
             {previousPost ? (
-              <a class="article-nav-card article-nav-previous" href={getPostUrl(previousPost.id)}>
+              <a class="article-nav-card" href={getPostUrl(previousPost.id)}>
                 <span class="article-nav-label">← Baca artikel sebelumnya</span>
                 <strong>{previousPost.data.title}</strong>
               </a>
-            ) : <span class="article-nav-spacer" aria-hidden="true"></span>}
+            ) : (
+              <span class="article-nav-spacer" aria-hidden="true"></span>
+            )}
             {nextPost ? (
               <a class="article-nav-card article-nav-next" href={getPostUrl(nextPost.id)}>
                 <span class="article-nav-label">Baca artikel selanjutnya →</span>
                 <strong>{nextPost.data.title}</strong>
               </a>
-            ) : <span class="article-nav-spacer" aria-hidden="true"></span>}
+            ) : (
+              <span class="article-nav-spacer" aria-hidden="true"></span>
+            )}
           </nav>
         )}
       </article>
