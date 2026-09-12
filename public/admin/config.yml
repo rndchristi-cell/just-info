@@ -108,3 +108,67 @@ collections:
         name: "body"
         widget: "markdown"
         required: true
+
+  - name: "products"
+    label: "Produk Rekomendasi"
+    label_singular: "Produk"
+    folder: "src/content/products"
+    create: true
+    extension: "md"
+    format: "frontmatter"
+    slug: "{{slug}}"
+    summary: "{{name}} — {{category}}"
+    fields:
+      - label: "Nama Produk"
+        name: "name"
+        widget: "string"
+        required: true
+
+      - label: "Gambar Produk"
+        name: "image"
+        widget: "image"
+        required: true
+
+      - label: "Deskripsi"
+        name: "description"
+        widget: "text"
+        required: true
+        hint: "Jelaskan produk secara singkat dan informatif."
+
+      - label: "Link Produk / Affiliate"
+        name: "url"
+        widget: "string"
+        required: true
+        hint: "Gunakan URL lengkap, termasuk https://"
+
+      - label: "Kategori"
+        name: "category"
+        widget: "string"
+        required: true
+        hint: "Contoh: Hosting, Software, Elektronik, Fashion, dan lain-lain."
+
+      - label: "Tipe Produk"
+        name: "type"
+        widget: "select"
+        options:
+          - label: "Produk Fisik"
+            value: "physical"
+          - label: "Produk Digital"
+            value: "digital"
+        default: "digital"
+        required: true
+
+      - label: "Urutan"
+        name: "order"
+        widget: "number"
+        value_type: "int"
+        default: 10
+        required: true
+        hint: "Angka lebih kecil akan tampil lebih dulu."
+
+      - label: "Tampilkan"
+        name: "published"
+        widget: "boolean"
+        default: true
+        required: true
+        hint: "Matikan jika produk ingin disimpan tetapi tidak ditampilkan di halaman."
