@@ -8,6 +8,7 @@ export async function GET({ site }: { site: URL }) {
   const staticPaths = [
     '',
     'artikel/',
+    'produk-rekomendasi/',
     'tentang/',
     'kontak/',
     'kebijakan-privasi/',
