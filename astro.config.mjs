@@ -1,1 +1,6 @@
-// @ts-checkimport { defineConfig } from 'astro/config';export default defineConfig({ site: 'https://yourinfo.my.id',});
+// @ts-check
+import { defineConfig } from 'astro/config';
+
+export default defineConfig({
+  site: 'https://yourinfo.my.id',
+});
