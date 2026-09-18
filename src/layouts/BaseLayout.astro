@@ -125,7 +125,7 @@ const {
   :global(*){box-sizing:border-box}
   :global(html){scroll-behavior:smooth}
   :global(body){min-height:100vh;margin:0;color:var(--text);background:var(--page-background);font-family:Georgia,'Times New Roman',serif}
-  .container{width:100%;max-width:1120px;margin-inline:auto;padding-inline:clamp(24px,5vw,64px)}
+  :global(.container){width:100%;max-width:1120px;margin-inline:auto;padding-inline:clamp(24px,5vw,64px)}
   .site-header{position:sticky;top:0;z-index:50;background:var(--surface);border-bottom:1px solid var(--border);box-shadow:0 2px 12px rgba(15,23,42,.06);isolation:isolate}
   .header-inner{display:flex;align-items:center;justify-content:space-between;min-height:72px;gap:24px}
   .brand{display:flex;align-items:center;width:168px;color:var(--heading);text-decoration:none}
