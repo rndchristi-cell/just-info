@@ -1,0 +1,146 @@
+---
+import SEO from '../components/SEO.astro';
+import GoogleTagManager from '../components/GoogleTagManager.astro';
+import GoogleTagManagerNoscript from '../components/GoogleTagManagerNoscript.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  type?: 'website' | 'article';
+  image?: string;
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  author?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  type = 'website',
+  image,
+  publishedTime,
+  modifiedTime,
+  author,
+  noindex,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-site-verification" content="eNUUHHWeHD-KPSiatyS81X5JvVAV3RRK1Z13WjWlyuA" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
+    <link rel="sitemap" href="/sitemap.xml" />
+    <meta name="theme-color" content="#111827" />
+    <SEO
+      title={title}
+      description={description}
+      canonical={canonical}
+      type={type}
+      image={image}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+      author={author}
+      noindex={noindex}
+    />
+    <GoogleTagManager />
+    <script is:inline>
+      (() => {
+        const saved = localStorage.getItem('theme');
+        if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <GoogleTagManagerNoscript />
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="Just Info — Beranda">
+          <img src="/logo.svg" alt="JUST INFO — Just What You Need to Know" width="168" height="48" />
+        </a>
+        <nav aria-label="Navigasi utama">
+          <a href="/">Beranda</a>
+          <a href="/artikel/">Artikel</a>
+          <a href="/produk-rekomendasi/">Produk Rekomendasi</a>
+          <a href="/tentang/">Tentang</a>
+          <button class="theme-toggle" type="button" aria-label="Aktifkan mode gelap"><span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Gelap</span></button>
+        </nav>
+      </div>
+    </header>
+
+    <slot />
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <nav aria-label="Tautan informasi situs" class="footer-nav">
+          <a href="/tentang/">Tentang</a>
+          <a href="/kontak/">Kontak</a>
+          <a href="/kebijakan-privasi/">Kebijakan Privasi</a>
+          <a href="/disclaimer/">Disclaimer</a>
+          <a href="/affiliate-disclosure/">Affiliate Disclosure</a>
+        </nav>
+        <slot name="footer-extra" />
+        <p class="footer-copyright">© 2026 Just Info</p>
+      </div>
+    </footer>
+
+    <script is:inline>
+      (() => {
+        const button = document.querySelector('.theme-toggle');
+        const icon = document.querySelector('.theme-icon');
+        const label = document.querySelector('.theme-label');
+        const update = () => {
+          const dark = document.documentElement.classList.contains('dark');
+          if (icon) icon.textContent = dark ? '☀' : '☾';
+          if (label) label.textContent = dark ? 'Terang' : 'Gelap';
+          button?.setAttribute('aria-label', dark ? 'Aktifkan mode terang' : 'Aktifkan mode gelap');
+        };
+        update();
+        button?.addEventListener('click', () => {
+          const dark = document.documentElement.classList.toggle('dark');
+          localStorage.setItem('theme', dark ? 'dark' : 'light');
+          update();
+        });
+      })();
+    </script>
+    <slot name="scripts" />
+  </body>
+</html>
+
+<style>
+  :global(:root){color-scheme:light;--page-background:#f7f8fa;--surface:#fff;--text:#1f2933;--heading:#111827;--muted:#667085;--border:#e5e7eb;--link:#2563eb;--footer:#111827;--footer-text:#fff;--badge:#dbeafe;--badge-text:#1d4ed8}
+  :global(html.dark){color-scheme:dark;--page-background:#111827;--surface:#1f2937;--text:#e5e7eb;--heading:#f9fafb;--muted:#aab4c3;--border:#374151;--link:#93c5fd;--footer:#030712;--footer-text:#e5e7eb;--badge:#1e3a8a;--badge-text:#bfdbfe}
+  :global(*){box-sizing:border-box}
+  :global(html){scroll-behavior:smooth}
+  :global(body){min-height:100vh;margin:0;color:var(--text);background:var(--page-background);font-family:Georgia,'Times New Roman',serif}
+  .container{width:100%;max-width:1120px;margin-inline:auto;padding-inline:clamp(24px,5vw,64px)}
+  .site-header{position:sticky;top:0;z-index:50;background:var(--surface);border-bottom:1px solid var(--border);box-shadow:0 2px 12px rgba(15,23,42,.06);isolation:isolate}
+  .header-inner{display:flex;align-items:center;justify-content:space-between;min-height:72px;gap:24px}
+  .brand{display:flex;align-items:center;width:168px;color:var(--heading);text-decoration:none}
+  .brand img{display:block;width:168px;height:48px;object-fit:contain;color:var(--heading)}
+  nav{display:flex;align-items:center;flex-wrap:wrap;gap:14px}
+  nav a{color:var(--link);text-decoration:none;font-family:Arial,sans-serif}
+  nav a:hover{text-decoration:underline}
+  .site-footer{padding:30px 0;background:var(--footer);color:var(--footer-text);font-family:Arial,sans-serif}
+  .footer-inner{display:flex;flex-direction:column;align-items:center;gap:18px}
+  .footer-nav{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px 18px}
+  .site-footer .footer-nav a{color:var(--footer-text);font-size:.85rem}
+  .footer-copyright{margin:0;text-align:center}
+  .theme-toggle{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text);cursor:pointer;font-family:Arial,sans-serif;font-size:.8rem}
+  .theme-toggle:hover{border-color:var(--link)}
+  .theme-icon{font-size:1rem;line-height:1}
+  .theme-label{white-space:nowrap}
+  @media(max-width:720px){.header-inner{align-items:flex-start;flex-direction:column;padding-top:18px;padding-bottom:18px}.brand{width:152px}.brand img{width:152px;height:auto}.site-footer{padding:28px 0}.footer-nav{gap:10px 16px}}
+</style>
