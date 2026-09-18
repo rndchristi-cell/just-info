@@ -1,8 +1,1 @@
-// @ts-check
-import { defineConfig } from 'astro/config';
-import sitemap from '@astrojs/sitemap';
-
-export default defineConfig({
-  site: 'https://yourinfo.my.id',
-  integrations: [sitemap()],
-});
+// @ts-checkimport { defineConfig } from 'astro/config';export default defineConfig({ site: 'https://yourinfo.my.id',});
