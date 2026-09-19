@@ -11,8 +11,7 @@ tags:
   - sharedhosting
   - wordpress
 bannerImage: /images/uploads/143980.webp
-bannerUrl: <a href="https://my.domainesia.com/ref.php?u=25629"><img
-  src="https://dnva.me/v9ev4" width="728px" height="90px" alt="DomaiNesia"></a>
+bannerUrl: ""
 bannerPosisi: tengah
 noindex: false
 ---
