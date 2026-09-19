@@ -82,7 +82,7 @@ Cloudflare hanya menyediakan server untuk **menerima**, bukan mengirim. Untuk ki
 
 Setelah ini, saat Compose email, kamu bisa pilih **From: care@namadomain.com**.
 
-Fitur ini disarankan untuk keperluan bukan full untuk bisnis ya, untuk penggunaan personal saja kalaupun untuk bisnis paka saja untuk komunikasi bukan untuk email marketing.
+Fitur ini disarankan untuk keperluan personal saja, bukan full untuk bisnis ya, kalaupun untuk bisnis paka saja untuk komunikasi, bukan untuk email marketing.
 
 - - -
 
