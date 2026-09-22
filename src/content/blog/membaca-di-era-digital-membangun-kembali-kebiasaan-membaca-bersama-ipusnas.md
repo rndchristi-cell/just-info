@@ -78,7 +78,7 @@ Karena itu, pendekatan yang paling realistis bukan mempertentangkan buku fisik d
 
 ## Mengenal iPusnas dan Hubungannya dengan Perpusnas
 
-**iPusnas** adalah aplikasi dan layanan perpustakaan digital yang memungkinkan masyarakat mencari, meminjam, dan membaca buku elektronik melalui perangkat digital. iPusnas dikembangkan sebagai bagian dari layanan digital **Perpustakaan Nasional Republik Indonesia**, yang umum disebut **Perpusnas**.
+**[iPusnas](https://www.perpusnas.go.id/berita/ipusnas-dan-indonesia-one-search-(ios),-solusi-digital-kebutuhan-informasimu)** adalah aplikasi dan layanan perpustakaan digital yang memungkinkan masyarakat mencari, meminjam, dan membaca buku elektronik melalui perangkat digital. iPusnas dikembangkan sebagai bagian dari layanan digital **Perpustakaan Nasional Republik Indonesia**, yang umum disebut **Perpusnas**.
 
 Perpusnas adalah lembaga negara yang bertugas menyelenggarakan layanan perpustakaan nasional dan mengelola berbagai sumber pengetahuan untuk masyarakat. Layanannya mencakup koleksi fisik, koleksi digital, layanan rujukan, pelestarian bahan pustaka, pengembangan perpustakaan, serta program literasi. Perpusnas juga memiliki gedung, ruang layanan, koleksi, pustakawan, dan berbagai platform digital.
 
