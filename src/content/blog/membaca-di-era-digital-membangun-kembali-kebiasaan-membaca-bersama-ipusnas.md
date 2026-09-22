@@ -9,7 +9,7 @@ category: Informasi
 tags:
   - membaca
   - aplikasi digital
-bannerImage: /images/uploads/148632.jpg
+bannerImage: /images/uploads/148633.webp
 bannerPosisi: atas
 noindex: false
 ---
