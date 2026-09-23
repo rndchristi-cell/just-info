@@ -1,5 +1,5 @@
 ---
-title: '"EPUB vs PDF: Memahami Format Buku Digital dan Kapan Sebaiknya Menggunakannya'
+title: "EPUB vs PDF: Memahami Format Buku Digital dan Kapan Sebaiknya Menggunakannya"
 description: Memahami perbedaan EPUB dan PDF, sejarah singkatnya, serta kapan
   sebaiknya menggunakan masing-masing format untuk buku digital.
 author: Just Info
