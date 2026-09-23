@@ -367,10 +367,6 @@ Jika sebuah buku terutama terdiri dari teks dan ditujukan untuk dibaca pada berb
 
 Jika sebuah buku sangat bergantung pada tata letak halaman dan kemungkinan akan dicetak, PDF biasanya lebih sesuai.
 
-Yang menarik, perkembangan teknologi publishing modern membuat batas antara dunia buku dan dunia web semakin dekat.
-
-Dengan HTML, CSS, Markdown, dan teknologi seperti Astro, konten web bahkan dapat menjadi bagian dari sebuah **digital publishing workflow** yang pada akhirnya menghasilkan buku digital dalam format EPUB.
-
 Jadi, meskipun EPUB dan PDF sama-sama terlihat seperti "file buku", sebenarnya keduanya memiliki filosofi yang cukup berbeda:
 
 > **PDF menjaga bentuk halaman. EPUB menjaga pengalaman membaca.**
