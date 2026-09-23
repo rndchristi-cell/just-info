@@ -62,9 +62,15 @@ collections:
 
       - label: "Kategori"
         name: "category"
-        widget: "string"
+        widget: "select"
         required: true
-        hint: "Tulis nama kategori."
+        options:
+          - "Umum"
+          - "Informasi"
+          - "Tutorial"
+          - "Teknologi"
+          - "website"
+        hint: "Pilih kategori yang sudah tersedia."
 
       - label: "Tag"
         name: "tags"
