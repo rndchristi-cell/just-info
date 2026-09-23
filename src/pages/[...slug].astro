@@ -167,8 +167,8 @@ const bannerImage = post.data.bannerImage?.trim();
   .prose :global(img){max-width:100%;height:auto;border-radius:8px}
   .prose :global(a){color:var(--link)}
   .prose :global(hr){border:0;border-top:1px solid var(--border);margin:42px 0}
-  .prose :global(table){width:100%;border-collapse:collapse;margin:32px 0;font-size:.98em}
-  .prose :global(th),.prose :global(td){padding:12px 14px;border:1px solid var(--border);text-align:left;vertical-align:top}
+  .prose :global(table){width:100%;max-width:100%;table-layout:fixed;border-collapse:collapse;margin:32px 0;font-size:.98em}
+  .prose :global(th),.prose :global(td){padding:12px 14px;border:1px solid var(--border);text-align:left;vertical-align:top;overflow-wrap:anywhere;word-break:break-word}
   .prose :global(th){background:var(--surface);color:var(--heading);font-weight:700}
   .prose :global(blockquote){margin-inline:0;padding-left:20px;border-left:3px solid var(--border);color:var(--muted)}
   .article-navigation{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:64px;padding-top:28px;border-top:1px solid var(--border)}
@@ -180,5 +180,6 @@ const bannerImage = post.data.bannerImage?.trim();
   .back-to-top{position:fixed;right:24px;bottom:24px;z-index:20;width:44px;height:44px;border:1px solid var(--border);border-radius:50%;background:var(--surface);color:var(--heading);box-shadow:0 4px 16px rgba(0,0,0,.12);font-family:Arial,sans-serif;font-size:1.35rem;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .2s ease,visibility .2s ease,transform .2s ease}
   .back-to-top.is-visible{opacity:1;visibility:visible;transform:translateY(0)}
   @media(max-width:900px){.article-layout{grid-template-columns:1fr}.article-sidebar{position:static}.article-sidebar .banner-sidebar{margin-top:36px}}
+  @media(max-width:720px){.prose :global(table){font-size:.9rem}.prose :global(th),.prose :global(td){padding:9px 8px}}
   @media(max-width:720px){.article-page{padding-top:40px}h1{font-size:clamp(2.2rem,11vw,3.4rem)}.article-navigation{grid-template-columns:1fr}.article-nav-next{text-align:left}}
 </style>
